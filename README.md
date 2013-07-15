@@ -22,6 +22,22 @@ x, y, z, r, g, b
 
 Where r, g, b, are integers of the primary colors (red, green and blue) from 0 to 255.
 
+Problems to visualize it?
+-------
+
+Three.js is a javascript library based on WebGL. WebGL is NOT suported by all browsers, you can check the compatibility of your hardware/software with webgl here:
+
+[WebGL Check Compatibility][link_webgl]
+
+If you don't see a spinning cube you can not use this software neither. To solve this problem, you can try the following:
+
+* Install Google Chrome Web Browser
+* If you can not see the cube using Google Chrome, type this in your address bar: chrome://flags/ and make sure you have enabled the following features:
+	1. Flag 'Override software rendering list' IS ENABLED
+	2. Flag 'Disable WebGL' IS DISABLED
+* If you have changed some of these flags, restart Google Chrome and try again.
+* If this does not solve the problem, make sure that your graphic card supports 3D acceleration.
+
 What is wrong?
 -------
 
@@ -36,3 +52,4 @@ The example pointcloud included in the code (data/pool_demo.txt) was taken with 
 [link_srv]: http://srv.uib.es/pointclouds/
 [link_filezilla]: https://filezilla-project.org/
 [link_cirs]: http://cirs.udg.edu/CIRS/News/News.html
+[link_webgl]: http://get.webgl.org/
