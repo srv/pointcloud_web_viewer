@@ -51,6 +51,17 @@ function load(filename) {
 					geometry.vertices.push(new THREE.Vector3(x, y, z));
 					geometry.colors.push(new THREE.Color(colorToHex(color)));
 				}
+
+				controls = new THREE.TrackballControls(camera);
+				controls.rotateSpeed = 1.0;
+				controls.zoomSpeed = 10.2;
+				controls.panSpeed = 0.8;
+				controls.noZoom = false;
+				controls.noPan = false;
+				controls.staticMoving = true;
+				controls.dynamicDampingFactor = 0.3;
+				controls.keys = [65, 17, 18];
+				controls.addEventListener('change', render);
 				
 				// Setup the scene
 				material = new THREE.ParticleBasicMaterial({ size: 0.02, vertexColors: true });

@@ -38,12 +38,14 @@ a {
     width:200px;
     top:0;
     left:0;
-    background:#E0E0E0;
+    background:#F0F0F0;
     z-index:999999;
 }
 
-#menu img {
-    float:right;
+#menu a img {
+    position:absolute;
+    right:0;
+    top:40%;
 }
 
 #menu h1 {
@@ -63,6 +65,13 @@ a {
 #menu ul li a{
     color:#484848;
     font-size:15px;
+}
+
+#menu a.sourcecode {
+    width:100%;
+    text-align:center;
+    position:absolute;
+    bottom:2px;
 }
 
 #szlider {

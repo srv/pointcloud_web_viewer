@@ -5,6 +5,7 @@ function toggleMenu() {
 		// Hide the menu
 		$('#menu').animate({width: '20px'}, 200);
 		$('#menucontent').hide();
+		$('.sourcecode').hide();
 
 		// Change image
 		$('#slidercontrols').attr('src', 'images/right-arrow.png');
@@ -15,6 +16,7 @@ function toggleMenu() {
 		// Show menu
 		$('#menu').animate({width: '200px'}, 200);
 		$('#menucontent').show();
+		$('.sourcecode').show();
 
 		// Change image
 		$('#slidercontrols').attr('src', 'images/left-arrow.png');
