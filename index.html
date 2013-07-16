@@ -10,6 +10,7 @@
 	    <script src="js/draw.js" type="text/javascript"></script>
 
 	    <script type="text/javascript">
+
 	    // Global variables
 		var container, stats;
 		var camera, scene, renderer, controls, particles, geometry, 
@@ -21,11 +22,21 @@
 
 	    $(function() {
 
-	    	// Setup webgl container
+	    	// Setup webgl
 	    	container = document.createElement('div');
 	    	document.body.appendChild(container);
 	    	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 300);
 	    	camera.position.z = 2;
+	    	controls = new THREE.TrackballControls(camera);
+	    	controls.rotateSpeed = 1.0;
+	    	controls.zoomSpeed = 10.2;
+	    	controls.panSpeed = 0.8;
+	    	controls.noZoom = false;
+	    	controls.noPan = false;
+	    	controls.staticMoving = true;
+	    	controls.dynamicDampingFactor = 0.3;
+	    	controls.keys = [65, 17, 18];
+	    	controls.addEventListener('change', render);
 	    	$('#szlider').hide();
 	    	$('#notification').hide();
 

@@ -37,7 +37,6 @@ function load(filename) {
 			else {
 				// Point cloud is here!
 				var lines = res.split('\n');
-				var maxX, maxY, maxZ, minX, minY, minZ;
 				for (var i=0; i<lines.length; i++) {
 					
 					// Sanity check
@@ -51,33 +50,7 @@ function load(filename) {
 					var color = 'rgb(' + point[3] + ',' + point[4] + ',' + point[5] + ')';
 					geometry.vertices.push(new THREE.Vector3(x, y, z));
 					geometry.colors.push(new THREE.Color(colorToHex(color)));
-
-					// Compute central point
-					if (i == 0) {
-						maxX = x;
-						maxY = y;
-						maxZ = z;
-						minX = x;
-						minY = y;
-						minZ = z;
-					}
-					else {
-						if (x > maxX) maxX = x;
-						if (y > maxY) maxY = y;
-						if (z > maxZ) maxZ = z;
-						if (x < minX) minX = x;
-						if (y < minY) minY = y;
-						if (z < minZ) minZ = z;
-					}
 				}
-				var meanX = minX + (maxX - minX) / 2;
-				var meanY = minY + (maxY - minY) / 2;
-				var meanZ = minZ + (maxZ - minZ) / 2;
-				
-				// Set the camera position
-				camera.position.x = -meanX;
-				camera.position.y = meanY;
-				camera.position.z = meanZ + 4;
 				restControls();
 				
 				// Setup the scene

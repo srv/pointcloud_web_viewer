@@ -41,7 +41,7 @@ If you don't see a spinning cube you can not use this software neither. To solve
 What is wrong?
 -------
 
-Many things, this is a preliminary version of the code, any contribution is welcome!
+Many things, this is just a preliminary version of the code, any contribution is welcome!
 
 
 Acknowledgements
