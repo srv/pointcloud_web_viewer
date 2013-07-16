@@ -8,8 +8,6 @@ function load(filename) {
 	$('#szlider').show();
 
 	// Init canvas
-	scene = new THREE.Scene();
-	scene.fog = new THREE.FogExp2(0x000000, 0.0009);
 	geometry = new THREE.Geometry();
 	geometry.dynamic = true;
 
@@ -64,8 +62,10 @@ function load(filename) {
 				controls.addEventListener('change', render);
 				
 				// Setup the scene
-				material = new THREE.ParticleBasicMaterial({ size: 0.02, vertexColors: true });
+				material = new THREE.ParticleBasicMaterial({ size: particleSize, vertexColors: true });
 				particles = new THREE.ParticleSystem(geometry, material);
+				scene = new THREE.Scene();
+				scene.fog = new THREE.FogExp2(0x000000, 0.0009);
 				scene.add(particles);
 
 				// Render the scene
@@ -119,3 +119,18 @@ function colorToHex(color) {
     var rgb = blue | (green << 8) | (red << 16);
     return digits[1] + '0x' + rgb.toString(16);
 }
+$(document).keydown(function(e) {
+	// Increase/decrease point size
+    if (e.keyCode == 189 || e.keyCode == 109)
+    	particleSize -= 0.003;	// minus
+    if (e.keyCode == 187 || e.keyCode == 107)
+    	particleSize += 0.003; 	// plus
+
+    // Re-render the scene
+    material = new THREE.ParticleBasicMaterial({ size: particleSize, vertexColors: true });
+	particles = new THREE.ParticleSystem(geometry, material);
+	scene = new THREE.Scene();
+	scene.fog = new THREE.FogExp2(0x000000, 0.0009);
+	scene.add(particles);
+	renderer.render(scene, camera);
+});
