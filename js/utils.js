@@ -1,3 +1,6 @@
+/**
+ * Show/hide the menu
+ */
 function toggleMenu() {
 
 	var menuWidth = $('#menu').css('width').replace(/[^-\d\.]/g, '');
@@ -27,7 +30,10 @@ function toggleMenu() {
 	return false;
 }
 
-function updateProgressBar() {						
+/**
+ * Function to update the progress bar.
+ */
+function updateProgressBar() {
 	$('#szliderbar').css('width', pbValue+'%');
 	pbValue++;
 	if (pbValue > 100) pbValue = 0;
