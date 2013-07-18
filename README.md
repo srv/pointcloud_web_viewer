@@ -22,6 +22,23 @@ x, y, z, r, g, b
 
 Where r, g, b, are integers of the primary colors (red, green and blue) from 0 to 255.
 
+
+Mouse controls
+-------
+
+- Rotate: Hold down the left mouse button and move
+- Zoom in/out: You have 2 options:
+	a) Rotate mouse wheel
+	b) Hold down the mouse wheel and move
+- Pan: Hold down the right mouse button and move
+
+
+Compatibility with Point Cloud Library (PCL)
+-------
+
+If you are using the [Point Cloud Library (PCL)][link_pcl] for your 3D projects, and want to plot your .pcd files, you have to convert them to the format specified before. I've created a [ROS][link_ros] node that takes a .pcd file (XYZ or XYZRGB) and convert it to .txt file that can be directly used by the Point Cloud Web Viewer ([Source Code][link_pointcloud_to_webgl]).
+
+
 Problems to visualize it?
 -------
 
@@ -38,6 +55,7 @@ If you don't see a spinning cube you can not use this software neither. To solve
 * If you have changed some of these flags, restart Google Chrome and try again.
 * If this does not solve the problem, make sure that your graphic card supports 3D acceleration.
 
+
 What is wrong?
 -------
 
@@ -49,7 +67,12 @@ Acknowledgements
 
 The example pointcloud included in the code (data/pool_demo.txt) was taken with Girona500, an AUV from the [University of Girona][link_cirs] (Spain).
 
+
+
 [link_srv]: http://srv.uib.es/pointclouds/
 [link_filezilla]: https://filezilla-project.org/
 [link_cirs]: http://cirs.udg.edu/CIRS/News/News.html
 [link_webgl]: http://get.webgl.org/
+[link_pcl]: http://pointclouds.org/
+[link_pointcloud_to_webgl]: https://github.com/srv/srv_tools/blob/fuerte-devel/pointcloud_tools/src/pointcloud_to_webgl.cpp
+[link_ros]: http://ros.org/
