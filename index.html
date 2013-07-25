@@ -17,8 +17,10 @@
 		var pointcloudLoaded = false;		
 		var mouseX = 0, mouseY = 0;
 		var pointCloud = [];
+		var colors = [];
 		var pbValue = 0;
 		var particleSize = 0.02;
+    var min_x, max_x,min_y, max_y,min_z, max_z;
 
 	    $(function() {
 
@@ -28,8 +30,8 @@
 	    	document.addEventListener('mousewheel', onDocumentMouseWheel, false);
 	    	document.addEventListener("keydown", onDocumentKeyDown, false);
 	    	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 300);
-			camera.position.z = 3;
-			renderer = new THREE.WebGLRenderer( {clearAlpha: 1 });
+				camera.position.z = 3;
+				renderer = new THREE.WebGLRenderer( {clearAlpha: 1 });
 	    	$('#szlider').hide();
 	    	$('#notification').hide();
 

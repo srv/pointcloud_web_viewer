@@ -38,6 +38,12 @@ function load(filename) {
 			else {
 				// Point cloud is here!
 				var lines = res.split('\n');
+				min_x = 0;
+				min_y = 0;
+				min_z = 0;
+				max_x = 0;
+				max_y = 0;
+				max_z = 0;
 				for (var i=0; i<lines.length; i++) {
 					
 					// Sanity check
@@ -48,10 +54,21 @@ function load(filename) {
 					var x = parseFloat(point[0]);
 					var y = parseFloat(point[1]);
 					var z = parseFloat(point[2]);
-					var color = 'rgb(' + point[3] + ',' + point[4] + ',' + point[5] + ')';
+
+          if(x>max_x) max_x = x;
+          if(x<min_x) min_x = x;
+          if(y>max_y) max_y = y;
+          if(y<min_y) min_y = y;
+          if(z>max_z) max_z = z;
+          if(z<min_z) min_z = z;
+
+          var color = 'rgb(' + point[3] + ',' + point[4] + ',' + point[5] + ')';
+                    
 					geometry.vertices.push(new THREE.Vector3(x, y, z));
-					geometry.colors.push(new THREE.Color(colorToHex(color)));
+					colors.push(new THREE.Color(colorToHex(color)));
 				}
+
+				geometry.colors = colors;
 
 				// Setup controls
 				controls = new THREE.TrackballControls(camera);
@@ -96,6 +113,61 @@ function load(filename) {
 	});
 
 	return false;
+}
+
+/**
+ * Function changeColor()
+ */
+function changeColor(color_mode){
+
+	var vertices = geometry.vertices;
+	geometry = new THREE.Geometry();
+	geometry.vertices = vertices;
+
+	if (color_mode == 'rgb')
+	{
+		geometry.colors = colors;
+	}
+	else
+	{
+		var axis_colors = [];
+		for (var i=0; i<geometry.vertices.length; i++)
+		{
+			var x = geometry.vertices[i].x;
+			var y = geometry.vertices[i].y;
+			var z = geometry.vertices[i].z;
+			var t = 0;
+			switch(color_mode)
+			{
+				case 'x':
+					t = (x-min_x)/(max_x-min_x);
+					break;
+				case 'y':
+					t = (y-min_y)/(max_y-min_y);
+					break;
+				case 'z':
+					t = (z-min_z)/(max_z-min_z);
+					break;
+				default:
+					alert('Color mode option not available');
+					break;
+			}
+			axis_colors.push(new THREE.Color(colorToHex(getColor(t))));
+		}
+		geometry.colors = axis_colors;
+	}
+}
+
+/**
+ * Function to generate a color palette from a value "v" between 0 and 1
+ */
+function getColor(v){
+    var pi = 3.151592;
+    var r = Math.cos(v*2*pi + 0) * (127) + 128;
+    var g = Math.cos(v*2*pi + 2) * (127) + 128;
+    var b = Math.cos(v*2*pi + 4) * (127) + 128;
+    var color = 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
+    return color;
 }
 
 /**
@@ -147,13 +219,31 @@ function onDocumentKeyDown(evt) {
 		if (evt.keyCode == 187 || evt.keyCode == 107)
 			particleSize += 0.003; 	// plus
 
+		if (evt.keyCode == 49) //Key 1: colorize with X
+		{
+			changeColor('x');
+		}
+		if (evt.keyCode == 50) //Key 2: colorize with Y
+		{
+			changeColor('y');
+		}
+		if (evt.keyCode == 51) //Key 3: colorize with Z
+		{
+			changeColor('z');
+		}
+		if (evt.keyCode == 52) //Key 4: colorize with color information
+		{
+			changeColor('rgb');
+		}
+		
 		// Re-render the scene
 		material = new THREE.ParticleBasicMaterial({ size: particleSize, vertexColors: true });
 		particles = new THREE.ParticleSystem(geometry, material);
 		scene = new THREE.Scene();
 		scene.fog = new THREE.FogExp2(0x000000, 0.0009);
 		scene.add(particles);
-		renderer.render(scene, camera);
+		render();
+
 	}
 }
 
