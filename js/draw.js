@@ -167,9 +167,10 @@ function changeColor(color_mode){
  */
 function getColor(v){
   var pi = 3.151592;
-  var r = Math.cos(v*2*pi + 0) * (127) + 128;
-  var g = Math.cos(v*2*pi + 2) * (127) + 128;
-  var b = Math.cos(v*2*pi + 4) * (127) + 128;
+  var v2 = v*0.7;
+  var r = Math.cos(v2*2*pi + 0) * (127) + 128;
+  var g = Math.cos(v2*2*pi + 1) * (127) + 128;
+  var b = Math.cos(v2*2*pi + 2) * (127) + 128;
   var color = 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
   return color;
 }
