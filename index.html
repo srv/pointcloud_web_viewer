@@ -5,92 +5,94 @@
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
-	    <script src="js/three.min.js" type="text/javascript"></script>
-	    <script src="js/utils.js" type="text/javascript"></script>
-	    <script src="js/draw.js" type="text/javascript"></script>
+        <script src="js/three.min.js" type="text/javascript"></script>
+        <script src="js/utils.js" type="text/javascript"></script>
+        <script src="js/draw.js" type="text/javascript"></script>
 
-	    <script type="text/javascript">
+        <script type="text/javascript">
 
-	    // Global variables
-		var container;
-		var camera, scene, renderer, controls, particles, geometry, material;
-		var pointcloudLoaded = false;		
-		var mouseX = 0, mouseY = 0;
-		var pointCloud = [];
-		var colors = [];
-		var pbValue = 0;
-		var particleSize = 0.02;
-    var min_x, max_x,min_y, max_y,min_z, max_z;
+        // Global variables
+        var container;
+        var camera, scene, renderer, controls, particles, geometry, material;
+        var pointcloudLoaded = false;       
+        var mouseX = 0, mouseY = 0;
+        var pointCloud = [];
+        var colors = [];
+        var pbValue = 0;
+        var particleSize = 0.02;
+        var min_x, max_x,min_y, max_y,min_z, max_z;
 
-	    $(function() {
+        $(function() {
 
-	    	// Setup webgl
-	    	container = document.createElement('div');
-	    	document.body.appendChild(container);
-	    	document.addEventListener('mousewheel', onDocumentMouseWheel, false);
-	    	document.addEventListener("keydown", onDocumentKeyDown, false);
-	    	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 300);
-				camera.position.z = 3;
-				renderer = new THREE.WebGLRenderer( {clearAlpha: 1 });
-	    	$('#szlider').hide();
-	    	$('#notification').hide();
+          // Hide the notification
+          $('#notification').toggle('fast');
 
-	    	// Load the pointclouds into the menu
-	    	$.ajax( {
-	    		url: 'services/get-list.php',
-	    		type: 'GET',
-	    		async: false,
-	    		crossDomain: true,
-	    		dataType: 'jsonp',
-	    		success: function(res) {
-	    			if (res == "error" || res == null) {
-	    				// Ooops, failed to retrieve the list of pointcloud
-	    				$('#message').text("Impossible to load the list of pointclouds from \
-	    					the server. Make sure you have loaded some pointcloud \
-	    					into the /data directory.");
-	    				$('#notification').toggle('fast');
-	    			}
-	    			else {
-	    				// Show the list of point clouds
-	    				var files = res.split(',');
-	    				for (var i=0; i<files.length; i++) {
-	    					
-	    					// Sanity check
-	    					if (files[i].length < 4) break;
+          // Setup webgl
+          container = document.createElement('div');
+          document.body.appendChild(container);
+          document.addEventListener('mousewheel', onDocumentMouseWheel, false);
+          document.addEventListener("keydown", onDocumentKeyDown, false);
+          camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 300);
+          camera.position.z = 3;
+          renderer = new THREE.WebGLRenderer( {clearAlpha: 1 });
+          $('#szlider').hide();
+          $('#notification').hide();
 
-	    					// Append point cloud to the menu
-	    					$('#menu ul').append('<li><a href="#" onclick=load("' + files[i] + '");>' + files[i] + '</a></li>');
-	    				}
-	    			}
-	    		},
-	    		error: function() {
-	    			// Ooops, failed to retrieve the list of pointcloud
-	    			$('#message').text("Impossible to load the list of pointclouds from \
-	    				the server. Make sure you have loaded some pointcloud \
-	    				into the /data directory.");
-	    			$('#notification').toggle('fast');
-	    		}
-	    	});
-	    });
-	    </script>
+          // Load the pointclouds into the menu
+          $.ajax( {
+            url: 'services/get-list.php',
+            type: 'GET',
+            async: false,
+            crossDomain: true,
+            dataType: 'jsonp',
+            success: function(res) {
+              if (res == "error" || res == null) {
+                // Ooops, failed to retrieve the list of pointcloud
+                $('#message').text("Impossible to load the list of pointclouds from \
+                    the server. Make sure you have loaded some pointcloud \
+                    into the /data directory.");
+                $('#notification').toggle('fast');
+              }
+              else {
+                // Show the list of point clouds
+                var files = res.split(',');
+                for (var i=0; i<files.length; i++) {
+                  // Sanity check
+                  if (files[i].length < 4) break;
+
+                  // Append point cloud to the menu
+                  $('#menu ul').append('<li><a href="#" onclick=load("' + files[i] + '");>' + files[i] + '</a></li>');
+                }
+              }
+            },
+            error: function() {
+              // Ooops, failed to retrieve the list of pointcloud
+              $('#message').text("Impossible to load the list of pointclouds from \
+                  the server. Make sure you have loaded some pointcloud \
+                  into the /data directory.");
+              $('#notification').toggle('fast');
+            }
+          });
+        });
+        </script>
     </head>
 
     <body>
-    	<div id="notification">
-    		<img src="images/oops.png" height="60">
-    		<p id="message"></p><br />
-    		<button type="button" onclick="$('#notification').toggle('fast');">This sucks!</button>
-    	</div>
-    	<div id="menu">
-    		<a href="#" onclick="toggleMenu();"><img id="slidercontrols" src="images/left-arrow.png" height="60" onmouseover="this.src='images/left-arrow-hover.png'" onmouseout="this.src='images/left-arrow.png'"></a>
-    		<div id="menucontent">
-	    		<a href="http://srv.uib.es"><h1>System, Robotics & Vision Group</h1></a>
-	    		<ul></ul>
-    		</div>
-    		<a class="sourcecode" href="https://github.com/srv/pointcloud_web_viewer" target="_blank"><small>Source Code</small></a>
-    	</div>
-    	<div id="szlider">
-			<div id="szliderbar"></div>
+        <div id="notification">
+            <img src="images/oops.png" height="60">
+            <p id="message"></p><br />
+            <button type="button" onclick="$('#notification').toggle('fast');">This sucks!</button>
+        </div>
+        <div id="menu">
+            <a href="#" onclick="toggleMenu();"><img id="slidercontrols" src="images/left-arrow.png" height="60" onmouseover="this.src='images/left-arrow-hover.png'" onmouseout="this.src='images/left-arrow.png'"></a>
+            <div id="menucontent">
+                <a href="http://srv.uib.es"><h1>System, Robotics & Vision Group</h1></a>
+                <ul></ul>
+            </div>
+            <a class="sourcecode" href="https://github.com/srv/pointcloud_web_viewer" target="_blank"><small>Source Code</small></a>
+        </div>
+        <div id="szlider">
+            <div id="szliderbar"></div>
         </div>
     </body>
 
