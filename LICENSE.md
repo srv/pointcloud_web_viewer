@@ -1,4 +1,4 @@
-Copyright (c) 2013,
+Copyright (c) 2013-2014,
 Systems, Robotics and Vision Group (srv.uib.es)
 University of the Balearican Islands
 All rights reserved.
