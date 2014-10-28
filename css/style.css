@@ -1,91 +1,22 @@
-/* GENERAL SETTINGS */
-* { 
-    padding: 0;
-    margin: 0;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-}:focus,:active {outline:0}ul,ol{list-style:none}img{border:0} 
-
 body {
-    margin:0;
-    padding:0;
-    background:#000;
+  padding-top: 50px;
 }
 
-a {
-    text-decoration:none;
+.thumbnail {
+    position:relative;
+    overflow:hidden;
 }
 
-#notification {
+.caption {
     position:absolute;
-    height:auto;
-    width:400px;
     top:0;
-    left:40%;
-    background:#E0E0E0;
-    z-index:999999;
-    padding:10px;
-    border-radius:0 0 15px 15px;
-    text-align:center;
-}
-
-#notification button {
-    padding:5px 10px;
-}
-
-#menu {
-    position:absolute;
-    height:100%;
-    width:200px;
-    top:0;
-    left:0;
-    background:#F0F0F0;
-    z-index:999999;
-}
-
-#menu a img {
-    position:absolute;
     right:0;
-    top:40%;
-}
-
-#menu h1 {
-    padding:10px 20px 10px 20px;
-    font-size:18px;
-    text-align:center;
-}
-
-#menu ul {
-    margin:10px 20px 60px 20px;
-}
-
-#menu ul li {
-    padding-bottom:6px;
-}
-
-#menu ul li a{
-    color:#484848;
-    font-size:15px;
-}
-
-#menu a.sourcecode {
+    background:rgba(255, 255, 255, 0.75);
     width:100%;
+    height:100%;
+    padding:2%;
+    display: none;
     text-align:center;
-    position:absolute;
-    bottom:2px;
-}
-
-#szlider {
-	position:absolute;
-    width:40%;
-    height:30px;
-    top:40%;
-    left:40%;
-    border-radius:15px;
-    overflow:hidden; 
-	z-index:999999;
-}
-#szliderbar {
-    width:0%;
-    height:30px;
-    background:#00FF00;
+    color:#222 !important;
+    z-index:2;
 }
