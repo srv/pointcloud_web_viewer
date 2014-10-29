@@ -10,17 +10,45 @@ How to use it
 
 Download the code and upload it to your server (using for example [FileZilla][link_filezilla]). You can modify it as you wish to meet your requirements.
 
-Then, you have to upload pointcloud files in ASCII mode into the 'data' directory. The format of these files must be as follows:
+Then, you have to upload your pointclouds into the 'data' directory. Every pointcloud must be a folder with the following structure:
+
+ - data
+	- pointcloud_1
+		- pc.csv
+		- info.csv
+		- img.png
+	- pointcloud_2
+		- pc.csv
+		- info.csv
+		- img.png
+	- ...
+
+The pc.csv is the pointcloud itself and must have the following format:
+
+x, y, z, r, g, b
+
+One point for each line, separated by commas. r, g, b, are integers of the primary colors (red, green and blue) from 0 to 255.
+
+Example:
 
 -2.09482,0.305857,0.203584,219,225,199
 -2.46393,0.879894,0.204576,238,243,203
 -2.42189,0.920989,0.200718,254,254,232
 ....
 
-One point for each line, separated by commas and with the following meaning:
-x, y, z, r, g, b
+The info.csv file has 2 lines:
+title,This is the pointcloud title
+meta,This is the pointcloud description
 
-Where r, g, b, are integers of the primary colors (red, green and blue) from 0 to 255.
+The img.png must be a 600x500px image thumbnail.
+
+
+
+Configuration
+-------
+
+Please, before running the webpage, open index.php and configure the main parameters.
+
 
 
 Mouse controls
@@ -36,7 +64,7 @@ Mouse controls
 Compatibility with Point Cloud Library (PCL)
 -------
 
-If you are using the [Point Cloud Library (PCL)][link_pcl] for your 3D projects, and want to plot your .pcd files, you have to convert them to the format specified before. I've created a [ROS][link_ros] node that takes a .pcd file (XYZ or XYZRGB) and convert it to .txt file that can be directly used by the Point Cloud Web Viewer ([Source Code][link_pointcloud_to_webgl]).
+If you are using the [Point Cloud Library (PCL)][link_pcl] for your 3D projects, and want to plot your .pcd files, you have to convert them to the format specified before. I've created a [ROS][link_ros] node that takes a .pcd file (XYZ or XYZRGB) and convert it to .csv file that can be directly used by the Pointcloud Web Viewer ([Source Code][link_pointcloud_to_webgl]).
 
 
 Problems to visualize it?
@@ -62,17 +90,11 @@ What is wrong?
 Many things, this is just a preliminary version of the code, any contribution is welcome!
 
 
-Acknowledgements
--------
-
-The example pointcloud included in the code (data/pool_demo.txt) was taken with Girona500, an AUV from the [University of Girona][link_cirs] (Spain).
-
-
 
 [link_srv]: http://srv.uib.es/pointclouds/
 [link_filezilla]: https://filezilla-project.org/
 [link_cirs]: http://cirs.udg.edu/CIRS/News/News.html
 [link_webgl]: http://get.webgl.org/
 [link_pcl]: http://pointclouds.org/
-[link_pointcloud_to_webgl]: https://github.com/srv/srv_tools/blob/fuerte-devel/pointcloud_tools/src/pointcloud_to_webgl.cpp
+[link_pointcloud_to_webgl]: https://github.com/srv/srv_tools/blob/indigo/pointcloud_tools/src/pointcloud_to_webgl.cpp
 [link_ros]: http://ros.org/
