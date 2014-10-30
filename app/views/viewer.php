@@ -62,10 +62,10 @@ else {
 
       // Check if iframe or not to change the button
       function inIframe () {
-        try {
-          return window.self !== window.top;
-        } catch (e) {
+        if ( window.location !== window.parent.location ) {
           return true;
+        } else {
+          return false;
         }
       }
 
@@ -106,7 +106,7 @@ else {
 
         // Camera
         var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 300);
-        camera.position.z = -5;
+        camera.position.z = -8;
 
         // Detect webgl support
         if (!Detector.webgl) {
@@ -175,7 +175,7 @@ else {
             colors.push(new THREE.Color(colorToHex(color)));
 
             freq++;
-            if (freq > 3000) {
+            if (freq > 2000) {
               var per = Math.round(geometry.vertices.length * 100 / <?php echo $lineCount ?>);
               $("#progressbar").attr("aria-valuenow", per);
               $("#progressbar").css("width", per + "%");
@@ -194,7 +194,7 @@ else {
 
             // Remove the progressbar
             $("#progressbar-container").hide();
-            if (inIframe) {
+            if (inIframe()) {
               $("#controls-iframe").show();
             }
             else {
@@ -306,7 +306,7 @@ else {
         </p>
       </div>
       <div id="controls-iframe" style="position:absolute; top:5px; left:5px; z-index:999999; display:none;">
-        <a style="font-size:11px;" href="http://srv.uib.es/pointclouds/view/<?php echo $pcFolder ?>">view on srv.uib.es</a>
+        <a style="font-size:11px;" href="http://srv.uib.es/pointclouds/view/<?php echo $pcFolder ?>" target="_blank">view on srv.uib.es</a>
       </div>
 
       <div id="progressbar-container" class="progress progress-striped" style="position:absolute; z-index:999999; width:400px; top:230px;">
