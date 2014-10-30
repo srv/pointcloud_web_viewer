@@ -2,9 +2,10 @@
 
 // Sanity check
 $valid = true;
-$pcFile = $pcFolder . '/' . PCFILE;
-$infoFile = $pcFolder . '/' . PCINFO;
-if (!is_dir($pcFolder)) {
+$pcDataFolder = DATAFOLDER . '/' . $pcFolder;
+$pcFile = $pcDataFolder . '/' . PCFILE;
+$infoFile = $pcDataFolder . '/' . PCINFO;
+if (!is_dir($pcDataFolder)) {
   $valid = false;
 }
 if (!file_exists($pcFile) || !file_exists($infoFile)) {
@@ -59,6 +60,41 @@ else {
     <script src="../js/papaparse.min.js"></script>
     <script>
 
+      // Check if iframe or not to change the button
+      function inIframe () {
+        try {
+          return window.self !== window.top;
+        } catch (e) {
+          return true;
+        }
+      }
+
+      // Convert colors
+      function colorToHex(color) {
+        if (color.substr(0, 1) === '0x') {
+          return color;
+        }
+        var digits = /(.*?)rgb\((\d+),(\d+),(\d+)\)/.exec(color);
+
+        var red = parseInt(digits[2]);
+        var green = parseInt(digits[3]);
+        var blue = parseInt(digits[4]);
+
+        var rgb = blue | (green << 8) | (red << 16);
+        return digits[1] + '0x' + rgb.toString(16);
+      }
+
+      // Build a color
+      function buildColor(v){
+        var pi = 3.151592;
+        var r = Math.cos(v*2*pi + 0) * (127) + 128;
+        var g = Math.cos(v*2*pi + 2) * (127) + 128;
+        var b = Math.cos(v*2*pi + 4) * (127) + 128;
+        var color = 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
+        return color;
+      }
+
+      // When page loads
       $(function() {
 
         // Draw the progressbar on the middle
@@ -158,7 +194,12 @@ else {
 
             // Remove the progressbar
             $("#progressbar-container").hide();
-            $("#btn-home").show();
+            if (inIframe) {
+              $("#controls-iframe").show();
+            }
+            else {
+              $("#controls-browser").show();
+            }
 
             // Add the canvas, render and animate
             var container = document.getElementById('container');
@@ -168,31 +209,6 @@ else {
             animate();
           }
         });
-
-        // Convert colors
-        function colorToHex(color) {
-          if (color.substr(0, 1) === '0x') {
-            return color;
-          }
-          var digits = /(.*?)rgb\((\d+),(\d+),(\d+)\)/.exec(color);
-
-          var red = parseInt(digits[2]);
-          var green = parseInt(digits[3]);
-          var blue = parseInt(digits[4]);
-
-          var rgb = blue | (green << 8) | (red << 16);
-          return digits[1] + '0x' + rgb.toString(16);
-        }
-
-        // Build a color
-        function buildColor(v){
-          var pi = 3.151592;
-          var r = Math.cos(v*2*pi + 0) * (127) + 128;
-          var g = Math.cos(v*2*pi + 2) * (127) + 128;
-          var b = Math.cos(v*2*pi + 4) * (127) + 128;
-          var color = 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
-          return color;
-        }
 
         // Changes the color of the points
         function changeColor(color_mode) {
@@ -247,8 +263,6 @@ else {
           cPos.y  = cPos.y * mb;
           cPos.z  = cPos.z * mb;
         }
-        window.addEventListener('DOMMouseScroll', onMouseWheel, false);
-        window.addEventListener('mousewheel', onMouseWheel, false);
 
         // Handle colors and pointsize
         function onKeyDown(evt) {
@@ -273,6 +287,10 @@ else {
             render();
           }
         }
+
+        // Mouse and keyboard events
+        window.addEventListener('DOMMouseScroll', onMouseWheel, false);
+        window.addEventListener('mousewheel', onMouseWheel, false);
         document.addEventListener("keydown", onKeyDown, false);
 
       });
@@ -280,12 +298,19 @@ else {
 
     <div id="container" style="width:100%; height:100%; position:relative;">
 
-      <div id="btn-home" style="position:absolute; top:5px; left:5px; z-index:999999; display:none;">
+      <div id="controls-browser" style="position:absolute; top:5px; left:5px; z-index:999999; display:none;">
         <a class="btn btn-sm btn-default" href="../home">Go home</a>
+        <p style="color:#aaa; margin-top:5px; font-size:12px;">
+          - 1, 2, 3 &amp; 4 change color<br />
+          - +/- change point size
+        </p>
+      </div>
+      <div id="controls-iframe" style="position:absolute; top:5px; left:5px; z-index:999999; display:none;">
+        <a style="font-size:11px;" href="http://srv.uib.es/pointclouds/view/<?php echo $pcFolder ?>">view on srv.uib.es</a>
       </div>
 
       <div id="progressbar-container" class="progress progress-striped" style="position:absolute; z-index:999999; width:400px; top:230px;">
-        <div id="progressbar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style="width:1%">1%</div>
+        <div id="progressbar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100" style="width:3%">3%</div>
       </div>
 
     </div>
