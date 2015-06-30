@@ -47,7 +47,9 @@ The img.png must be a 600x500px image thumbnail.
 Configuration
 -------
 
-Please, before running the webpage, open index.php and configure the main parameters.
+Please, before running the webpage, open index.php and configure the main parameters. You also need that your server take account the .htaccess file, so enable it in the configuration of your server. If you are using apache2, then execute the following command in your terminal:
+
+a2enmod rewrite
 
 
 
