@@ -42,7 +42,7 @@ else {
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>SRV Pointcloud Viewer</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -54,10 +54,10 @@ else {
 
   <body>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/webgl-detector.js"></script>
-    <script src="../js/three.min.js"></script>
-    <script src="../js/papaparse.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/webgl-detector.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/papaparse.min.js"></script>
     <script>
 
       // Check if iframe or not to change the button

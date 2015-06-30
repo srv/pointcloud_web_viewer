@@ -45,7 +45,7 @@ if (sizeof($pathInfo['call_parts']) > 0) {
   $page = $pathInfo['call_parts'][0];
   switch ($page) {
     case 'view':
-      $pcFolder = $pathInfo['call_parts'][1];
+      $pcFolder = (isset($_REQUEST['c']) ? $_REQUEST['c'] : null);
       include('app/views/viewer.php');
       break;
     case '404':
